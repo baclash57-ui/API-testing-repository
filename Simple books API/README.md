@@ -68,9 +68,4 @@ Authentication tokens and other sensitive values have been removed from this rep
 * API Validation Scripts
 * Dependency Documentation
 
-## Author
-
-**Nicholas**
-
-API Testing Portfolio Project
 
