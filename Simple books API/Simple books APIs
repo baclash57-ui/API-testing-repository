@@ -1,0 +1,591 @@
+{
+  "info": {
+    "_postman_id": "d7d5631a-32de-4619-8ac0-8e45fb0012dd",
+    "name": "Postman tutorial",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51799115",
+    "_collection_link": "https://go.postman.co/collection/51799115-d7d5631a-32de-4619-8ac0-8e45fb0012dd?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get Status",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response time is less than 4secs\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(4000);\r",
+              "});\r",
+              "\r",
+              "\r",
+              "//Parsing the JSON RESPONSE\r",
+              "const responseJson = pm.response.json();\r",
+              "\r",
+              "console.log(responseJson.status);\r",
+              "\r",
+              "console.log(responseJson [\"status\"]);\r",
+              "\r",
+              "pm.test(\"Status is OK\", () => {\r",
+              "    pm.expect(responseJson.status).to.eql(\"OK\")\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{Base URL}}/status",
+          "host": [
+            "{{Base URL}}"
+          ],
+          "path": [
+            "status"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List of all Books",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//status checks\r",
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "const response = pm.response.json();\r",
+              "const nonfictionbooks = response.filter(book => book.available === true);\r",
+              "const book = nonfictionbooks[0]; // Changed to [0] to get first available book\r",
+              "if (book) {\r",
+              "    pm.collectionVariables.set(\"bookId\", book.id);\r",
+              "}\r",
+              "\r",
+              "pm.test(\"Book found\", () => {\r",
+              "pm.expect(book).to.be.an('object');\r",
+              "pm.expect(book.available).to.be.true;\r",
+              "pm.expect(book.available).to.eql(true);\r",
+              "});\r",
+              "\r",
+              "pm.collectionVariables.get(nonfictionbooks[0].id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{Base URL}}/books",
+          "host": [
+            "{{Base URL}}"
+          ],
+          "path": [
+            "books"
+          ],
+          "query": [
+            {
+              "key": "type",
+              "value": "non-fiction",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get books",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{Base URL}}/books?limit=5&page=2",
+          "host": [
+            "{{Base URL}}"
+          ],
+          "path": [
+            "books"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "5"
+            },
+            {
+              "key": "page",
+              "value": "2"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Single book",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "// calling the response ",
+              "",
+              "const response = pm.response.json()",
+              "",
+              "// assigning the response to a variable",
+              "",
+              "pm.test(\"is in stock \", function () {",
+              "    pm.expect(response[\"current-stock\"]).to.be.above(2);",
+              "});",
+              "",
+              "",
+              "console.log(pm.response.code + \" \" + pm.response.status); ",
+              "// prints \"200 OK\"",
+              "",
+              "pm.test(\"status should be ok\",() => {",
+              "  pm.expect(pm.response.status).to.eql(\"OK\")  ",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{Base URL}}/books/:bookId",
+          "host": [
+            "{{Base URL}}"
+          ],
+          "path": [
+            "books",
+            ":bookId"
+          ],
+          "variable": [
+            {
+              "key": "bookId",
+              "value": "{{bookId}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "New Authentication",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201 created\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "console.log(pm.response.code + \" \" + pm.response.status); \r",
+              "// prints \"201 OK\"\r",
+              "\r",
+              "pm.test(\"status should be ok.\",() => {\r",
+              "  pm.expect(pm.response.status).to.eql(\"Created\")  \r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"clientName\": \"namettiio \",\r\n  \"clientEmail\": \"meanato@example.com\"\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{Base URL}}/api-clients/",
+          "host": [
+            "{{Base URL}}"
+          ],
+          "path": [
+            "api-clients",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "New order",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "\r",
+              "pm.test(\"Status code is 201\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "console.log(pm.response.code + \" \" + pm.response.status); \r",
+              "// prints \"200 OK\"\r",
+              "\r",
+              "pm.test(\"status should be ok\",() => {\r",
+              "  pm.expect(pm.response.status).to.eql(\"Created\")  \r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "followAuthorizationHeader": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"bookId\": 6,\r\n  \"customerName\": \"John moe\"\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{Base URL}}/orders/",
+          "host": [
+            "{{Base URL}}"
+          ],
+          "path": [
+            "orders",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET All Orders",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "//Save the first List item id to a collection variable.\r",
+              "const response = pm.response.json();\r",
+              "\r",
+              "const firstOrderId = response[0].id;\r",
+              "\r",
+              "pm.collectionVariables.set(\"order id\", firstOrderId);\r",
+              "\r",
+              "console.log(\"First Order ID saved: \" + firstOrderId);\r",
+              "\r",
+              "//status checks\r",
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "console.log(pm.response.code + \" \" + pm.response.status); \r",
+              "// prints \"200 OK\"\r",
+              "\r",
+              "pm.test(\"status should be ok\",() => {\r",
+              "  pm.expect(pm.response.status).to.eql(\"OK\")  \r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "followAuthorizationHeader": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{Base URL}}/orders/",
+          "host": [
+            "{{Base URL}}"
+          ],
+          "path": [
+            "orders",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get an order",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "console.log(pm.response.code + \" \" + pm.response.status); \r",
+              "// prints \"200 OK\"\r",
+              "\r",
+              "pm.test(\"status should be ok\",() => {\r",
+              "  pm.expect(pm.response.status).to.eql(\"OK\")  \r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "followAuthorizationHeader": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{Base URL}}/orders/{{order id}}",
+          "host": [
+            "{{Base URL}}"
+          ],
+          "path": [
+            "orders",
+            "{{order id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Orders",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {\r",
+              "    pm.response.to.have.status(204);\r",
+              "});\r",
+              "\r",
+              "console.log(pm.response.code + \" \" + pm.response.status); \r",
+              "// prints \"200 OK\"\r",
+              "\r",
+              "pm.test(\"status should be no Content\",() => {\r",
+              "  pm.expect(pm.response.status).to.eql(\"No Content\")  \r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "followAuthorizationHeader": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"customerName\": \"Jane {{$randomLastName}}\"\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{Base URL}}/orders/{{order id}}",
+          "host": [
+            "{{Base URL}}"
+          ],
+          "path": [
+            "orders",
+            "{{order id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Orders",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 204\", function () {\r",
+              "    pm.response.to.have.status(204);\r",
+              "});\r",
+              "\r",
+              "console.log(pm.response.code + \" \" + pm.response.status);\r",
+              "// prints \"204 No Content\"\r",
+              "\r",
+              "pm.test(\"status should be No Content\", () => {\r",
+              "    pm.expect(pm.response.status).to.eql(\"No Content\")\r",
+              "});\r",
+              "\r",
+              "pm.execution.setNextRequest(null)"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "followAuthorizationHeader": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{Base URL}}/orders/{{order id}}",
+          "host": [
+            "{{Base URL}}"
+          ],
+          "path": [
+            "orders",
+            "{{order id}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "Base URL",
+      "value": "https://simple-books-api.glitch.me"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "order id",
+      "value": ""
+    },
+    {
+      "key": "bookId",
+      "value": ""
+    }
+  ]
+}
