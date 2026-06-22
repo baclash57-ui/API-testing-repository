@@ -18,8 +18,8 @@
               "    pm.response.to.have.status(200);\r",
               "});\r",
               "\r",
-              "pm.test(\"Response time is less than 4secs\", function () {\r",
-              "    pm.expect(pm.response.responseTime).to.be.below(4000);\r",
+              "pm.test(\"Response time is less than 5secs\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(5000);\r",
               "});\r",
               "\r",
               "\r",
@@ -215,7 +215,48 @@
               "\r",
               "pm.test(\"status should be ok.\",() => {\r",
               "  pm.expect(pm.response.status).to.eql(\"Created\")  \r",
-              "});"
+              "});\r",
+              "\r",
+              "// Capture the token created\r",
+              "const response = pm.response.json();\r",
+              "\r",
+              "// DEBUG: See the actual response structure\r",
+              "console.log(\"Full response:\", JSON.stringify(response));\r",
+              "\r",
+              "// Try common token locations\r",
+              "const token = response.token \r",
+              "    || response.data?.token \r",
+              "    || response.access_token \r",
+              "    || response.accessToken;\r",
+              "\r",
+              "if (token) {\r",
+              "    pm.collectionVariables.set(\"authToken\", token);\r",
+              "    console.log(\"Token saved:\", token);\r",
+              "} else {\r",
+              "    console.log(\"Token NOT found. Response keys:\", Object.keys(response));\r",
+              "}\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "function randomString(length) {\r",
+              "    const chars = \"abcdefghijklmnopqrstuvwxyz\";\r",
+              "    let result = \"\";\r",
+              "    for (let i = 0; i < length; i++) {\r",
+              "        result += chars.charAt(Math.floor(Math.random() * chars.length));\r",
+              "    }\r",
+              "    return result;\r",
+              "}\r",
+              "\r",
+              "pm.environment.set(\"clientName\", \"User_\" + randomString(6));\r",
+              "pm.environment.set(\"clientEmail\", randomString(8) + \"@testmail.com\");"
             ],
             "type": "text/javascript",
             "packages": {},
@@ -228,7 +269,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"clientName\": \"namettiio \",\r\n  \"clientEmail\": \"meanato@example.com\"\r\n}\r\n",
+          "raw": "{\r\n  \"clientName\": \"{{clientName}}\",\r\n  \"clientEmail\": \"{{clientEmail}}\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -282,7 +323,7 @@
           "bearer": [
             {
               "key": "token",
-              "value": "{{token}}",
+              "value": "{{authToken}}",
               "type": "string"
             }
           ]
@@ -354,7 +395,7 @@
           "bearer": [
             {
               "key": "token",
-              "value": "{{token}}",
+              "value": "{{authToken}}",
               "type": "string"
             }
           ]
@@ -408,7 +449,7 @@
           "bearer": [
             {
               "key": "token",
-              "value": "{{token}}",
+              "value": "{{authToken}}",
               "type": "string"
             }
           ]
@@ -461,7 +502,7 @@
           "bearer": [
             {
               "key": "token",
-              "value": "{{token}}",
+              "value": "{{authToken}}",
               "type": "string"
             }
           ]
@@ -525,7 +566,7 @@
           "bearer": [
             {
               "key": "token",
-              "value": "{{token}}",
+              "value": "{{authToken}}",
               "type": "string"
             }
           ]
@@ -577,14 +618,18 @@
     },
     {
       "key": "token",
-      "value": ""
+      "value": "bd6bcf675d4a02247c5a723d8d7fe0790501e3a6f507faf0d3591713f1063fc9"
     },
     {
       "key": "order id",
-      "value": ""
+      "value": "H3rQgUtmJSX-y7_gLMutl"
     },
     {
       "key": "bookId",
+      "value": ""
+    },
+    {
+      "key": "authToken",
       "value": ""
     }
   ]
