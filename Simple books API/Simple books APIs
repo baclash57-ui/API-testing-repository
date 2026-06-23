@@ -18,6 +18,7 @@
               "    pm.response.to.have.status(200);\r",
               "});\r",
               "\r",
+            
               "//Parsing the JSON RESPONSE\r",
               "const responseJson = pm.response.json();\r",
               "\r",
@@ -612,12 +613,8 @@
       "value": "https://simple-books-api.glitch.me"
     },
     {
-      "key": "token",
-      "value": "bd6bcf675d4a02247c5a723d8d7fe0790501e3a6f507faf0d3591713f1063fc9"
-    },
-    {
       "key": "order id",
-      "value": "H3rQgUtmJSX-y7_gLMutl"
+      "value": ""
     },
     {
       "key": "bookId",
