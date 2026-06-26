@@ -215,7 +215,7 @@ Delete Board
       │
       ▼
 Verify 404 Response
-
+```
 
 ## API Order of execution
 
