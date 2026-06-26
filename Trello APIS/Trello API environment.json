@@ -16,7 +16,7 @@
 		},
 		{
 			"key": "Trello Url",
-			"value": "",
+			"value": "https://api.trello.com",
 			"type": "default",
 			"enabled": true
 		},
