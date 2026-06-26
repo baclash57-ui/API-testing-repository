@@ -28,4 +28,3 @@ For this execution we will be using the LIFO principle.
 |  |  |  |
 | **Delete board** | **Delete board** | **Create Board** |
 
-Simple books API documentation
