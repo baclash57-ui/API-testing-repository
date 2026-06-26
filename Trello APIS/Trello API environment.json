@@ -1,0 +1,52 @@
+{
+	"id": "1a81533a-ddf5-40d2-b4fd-f26211d2aaee",
+	"name": "Trello pract APIs",
+	"values": [
+		{
+			"key": "trelloToken",
+			"value": "",
+			"type": "secret",
+			"enabled": true
+		},
+		{
+			"key": "Tkey",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Trello Url",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "BoardID",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "orderId",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "clientName",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "clientEmail",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"color": null,
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-06-26T14:11:21.646Z",
+	"_postman_exported_using": "Postman/12.16.3"
+}
